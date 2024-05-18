@@ -24,14 +24,18 @@
                         <tr>
                             <th>sira</th>
                             <th>doctorId</th>
-                            <th>hospitalId</th>
+                            <th>doctor name</th>
+                            <th>doctorsurname</th>
+                            <th>hospitls</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="(item,index) in junctionTableData" :key="item.id">
-                            <td>{{ index+ 1 }}</td>
+                        <tr v-for="(item, index) in junctionTableData" :key="item.id">
+                            <td>{{ index + 1 }}</td>
                             <td>{{ item.doctorId }}</td>
-                            <td>{{ item.hospitalId }}</td>
+                            <td>{{ item.doctorName }}</td>
+                            <td>{{ item.doctorSurname }}</td>
+                            <td>{{ showHospitals(item.hospitals) }} </td>
                         </tr>
                     </tbody>
                 </table>
@@ -70,10 +74,9 @@ export default {
                 .catch((error) => { console.error('Error: ', error); });
         },
         getJunctionTableData() {
-            axios.get('http://localhost:5179/api/doctorhospital')
+            axios.get('http://localhost:5179/api/doctorhospital/junction')
                 .then((response) => {
-                    this.junctionTableData= response.data;
-               //     console.log(junctionTableData);
+                    this.junctionTableData = response.data;
                 })
                 .catch((error) => { console.error('Error: ', error); });
         },
@@ -86,6 +89,9 @@ export default {
                 })
             e.preventDefault();
         },
+        showHospitals(hospitals) {
+            return hospitals.map(hospital => hospital.name).join(' ,');
+        }
     }
 }
 </script>
